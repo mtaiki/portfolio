@@ -1,0 +1,1710 @@
+@charset "utf-8";
+
+// レイアウト幅
+$layout-width-inner: 1025px;
+
+$breakpoints: (
+    //767px以下（スマホ）用の表示
+    "sm": "screen and (max-width: 767px)",
+    //1024px以下の（タブレット）用の表示
+    "tab": "screen and (max-width: #{$layout-width-inner - 1px})",
+    //1025px以上の（pc）用の表示
+    "pc": "screen and (min-width: #{$layout-width-inner})"
+) !default;
+
+@mixin mq($breakpoint: pc) {
+    @media #{map-get($breakpoints, $breakpoint)} {
+        @content;
+    }
+}
+
+// reset scss
+@import "reset";
+
+$font-color: #1a1a1a;
+$bg-color: #E1EDF5;
+$title-color: #C9E8F5;
+
+body {
+    font-family: "Noto Sans JP", "Helvetica Neue", arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", meiryo, sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: #1a1a1a;
+
+    @include mq(sm) {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .container {
+        max-width: 1360px;
+        padding: 0 40px;
+        margin: 0 auto;
+
+        @include mq(sm) {
+            padding: 0 20px;
+        }
+    }
+
+    section {
+        margin-bottom: 100px;
+        padding: 100px 0;
+
+        @include mq(sm) {
+            margin-bottom: 70px;
+            padding: 50px 0;
+        }
+    }
+
+    .section-title {
+        text-align: center;
+        position: relative;
+        margin-bottom: 70px;
+        color: $font-color;
+
+            @include mq(sm) {
+                margin-bottom: 50px;
+            }
+        
+        p {
+            z-index: 1;
+            position: relative;
+            font-family: "Montserrat", sans-serif !important;
+            font-weight: 600;
+            font-size: 36px;
+            line-height: 1.5;
+            letter-spacing: 3px;
+
+            @include mq(sm) {
+                font-family: "Montserrat", sans-serif !important;
+                font-size: 30px;
+            }
+        }
+
+        &::before {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        &::after {
+            position: absolute;
+            content: "";
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 12px;
+            z-index: 0;
+
+            @include mq(sm) {
+                height: 10px;
+            }
+        }
+    }
+
+    .btn {
+        max-width: 230px;
+        height: 70px;
+        margin: 0 auto;
+
+        @include mq(sm) {
+            max-width: 200px;
+            height: 50px;
+        }
+
+        .btn-link {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            padding: 17px 0;
+            color: $font-color;
+            font-size: 18px;
+            font-weight: 700;
+            transition: all 0.2s;
+
+            @include mq(sm) {
+                padding: 11px 0;
+                font-size: 16px;
+            }
+        }
+    }
+
+    #mv-background {
+        width: 100%;
+        height: 100%;
+    }
+
+//** =========== page-head =========== **//
+    .page-head {
+        padding: 0;
+        width: 100vw;
+        height: 35vh;
+        position: relative;
+    
+        .mv-title {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+    
+            .title-en {
+                font-family: "Montserrat", sans-serif !important;
+                font-size: clamp(30px, 4vw, 60px);
+                line-height: 1.2;
+                font-weight: 300;
+                letter-spacing: 6px;
+                white-space: nowrap;
+
+                @include mq(sm) {
+                    font-family: "Montserrat", sans-serif !important;
+                }
+            }
+    
+            .title-js {
+                font-size: 18px;
+    
+                @include mq(sm) {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}
+
+// ローディング
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 99999;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+
+    #loading_box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
+
+        .loading-one {
+            display: inline-block;
+            border-top: 8px solid $title-color;
+            border-bottom: 8px solid $title-color;
+
+            @include mq(sm) {
+                border-top: 2px solid $title-color;
+                border-bottom: 2px solid $title-color;
+            }
+
+            .loading-txt {
+                color: $font-color;
+                font-size: clamp(14px, 3.4vw, 30px);
+                letter-spacing: 0.25em;
+                line-height: 2.0;
+                padding: 2.5em 0;
+
+                @include mq(sm) {
+                    letter-spacing: 0;
+                    padding: 2em 0;
+                }
+            }
+        }
+
+        // ローディングアニメーション
+        .animation_loading {
+            animation: equalizer_loading 7000ms infinite;
+            animation-iteration-count: 10;
+          }
+
+          @keyframes equalizer_loading {
+            0% {
+              width: 70%;
+            }
+            10% {
+              width: 25%;
+            }
+            20% {
+              width: 70%;
+            }
+            30% {
+              width: 100%;
+            }
+            40% {
+              width: 70%;
+            }
+            50% {
+              width: 25%;
+            }
+            60% {
+              width: 70%;
+            }
+            70% {
+              width: 100%;
+            }
+            80% {
+              width: 70%;
+            }
+            90% {
+              width: 25%;
+            }
+            100% {
+              width: 100%;
+            }
+        }
+    }
+}
+
+.header  {
+
+    .header-inner {
+
+        .header-logo {
+            position: fixed;
+            top: 2vw;
+            left: 5vw;
+            max-width: 146px;
+            width: 100%;
+            z-index: 2;
+
+            @include mq(sm) {
+                top: 4vw;
+                max-width: 72px;
+            }
+        }
+
+        .header-nav {
+            width: 40vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            right: 0;
+            text-align: center;
+            transform: translateX(100%);
+            transition: 0.2s;
+            background-color: $bg-color;
+            padding-top: 180px;
+            z-index: 10;
+
+            @include mq(sm) {
+                width: 70vw;
+                padding-top: 100px;
+            }
+
+            &.active {
+                transform: translateX(0%);
+            }
+
+            .header-list {
+
+                .list-item {
+                    margin-bottom: 50px;
+
+                    a {
+                        font-family: "Montserrat", sans-serif !important;
+                        font-size: 22px;
+                        font-weight: 600;
+                        letter-spacing: 2px;
+                        color: $font-color;
+                        position: relative;
+                        display: inline-block;
+                        width: 100%;
+                        height: 100%;
+
+                        @include mq(sm) {
+                            font-family: "Montserrat", sans-serif !important;
+                            font-size: 20px;
+                        }
+
+                        &::before {
+                            position: absolute;
+                            content: "";
+                            bottom: -20px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 0%;
+                            height: 4px;
+                            background-color: #fff;
+                            transition: all 0.2s;
+                            z-index: -1;
+                        }
+
+                        &::after {
+                            position: absolute;
+                            top: 85%;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            font-size: 14px;
+                            white-space: nowrap;
+                            font-weight: 300;
+
+                            @include mq(sm) {
+                                font-size: 12px;
+                            }
+                        }
+
+                        &:hover {
+
+                            &::before {
+                                width: 25%;
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(1) {
+                        a {
+                            &::after {
+                                content: "トップ";
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(2) {
+                        a {
+                            &::after {
+                                content: "自己紹介";
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(3) {
+                        a {
+                            &::after {
+                                content: "出来る事";
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(4) {
+                        a {
+                            &::after {
+                                content: "制作物";
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(5) {
+                        a {
+                            &::after {
+                                content: "お問い合わせ";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .burger-btn {
+            position: fixed;
+            top: 2.3vw;
+            right: 5vw;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 11;
+
+            &::after {
+                position: absolute;
+                content: "MENU";
+                top: 80%;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 12px;
+
+                @include mq(sm) {
+                    font-size: 10px;
+                }
+            }
+
+            .bars {
+                .bar {
+                    display: block;
+                    background-color: $font-color;
+                    width: 32px;
+                    height: 2px;
+                    margin: 5px 0;
+                    border-radius: 1px;
+                    transition: 0.2s;
+
+                    @include mq(sm) {
+                        width: 28px;
+                    }
+                }
+            }
+    
+            &.active {
+                .bars {
+                    .bar-top {
+                        transform: translateY(7px) rotate(45deg);
+                    }
+            
+                    .bar-mid {
+                        opacity: 0;
+                    }
+        
+                    .bar-bottom {
+                        transform: translateY(-7px) rotate(-45deg);
+                    }
+                }
+            }
+        }
+        
+        #js-burger-musk {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 9;
+            transition: 0.2s;
+
+            &.is-open {
+                opacity: 0.7;
+                visibility: visible;
+            }
+        }
+    }
+}
+
+.main {
+    position: relative;
+
+    .bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50.7818%;
+        height: 200px;
+        background-image: url(../image/background.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+        z-index: 1;
+
+        @include mq(sm) {
+            background-image: url(../image/background-sp.png);
+        }
+    }
+
+    .mv {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+    
+        .mv-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+    
+            p {
+                text-align: center;
+                font-family: "Montserrat", sans-serif !important;
+                font-size: clamp(30px, 4vw, 60px);
+                line-height: 1.2;
+                font-weight: 300;
+                letter-spacing: 6px;
+                white-space: nowrap;
+            }
+        }
+
+        .scrolldown {
+            position:absolute;
+            top: 90%;
+            left:50%;
+
+            &::before {
+                position: absolute;
+                content: "";
+                bottom:0;
+                left:-4px;
+                /*丸の形状*/
+                width:10px;
+                height:10px;
+                border-radius: 50%;
+                background:#000;
+                /*丸の動き1.6秒かけて透過し、永遠にループ*/
+                animation:
+                circlemove 1.6s ease-in-out infinite,
+                cirlemovehide 1.6s ease-out infinite;
+                
+                /*下からの距離が変化して丸の全体が上から下に動く*/
+                @keyframes circlemove {
+                    0%{bottom:45px;}
+                    100%{bottom:-8px;}
+                }
+
+                @keyframes cirlemovehide {
+                    0%{opacity:0}
+                    50%{opacity:1;}
+                    80%{opacity:0.9;}
+                    100%{opacity:0;}
+                }
+            }
+
+            &::after {
+                position: absolute;
+                content: "";
+                bottom:0;
+                left:0;
+                /*線の形状*/
+                width:2px;
+                height: 50px;
+                background:#000;
+            }
+
+            span {
+                 /*描画位置*/
+                position: absolute;
+                left:10px;
+                bottom:7px;
+                /*テキストの形状*/
+                color: #000;
+                font-size: 0.8rem;
+                letter-spacing: 0.05em;
+                /*縦書き設定*/
+                writing-mode: vertical-rl;
+            }
+        }
+    }
+    
+    .about {
+    
+        .about-inner {
+            max-width: 1095px;
+            margin: 0 auto;
+    
+            .section-title {
+        
+                &::before {
+                    content: "私について";
+                }
+        
+                &::after {
+                    background-color: $title-color;
+                }
+            }
+        
+            .about-item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+    
+                @include mq(sm) {
+                    flex-direction: column;
+                }
+    
+                .about-prof {
+                    width: 47.9453%;
+    
+                    @include mq(sm) {
+                        width: 100%;
+                        order: 1;
+                        margin-top: 40px;
+                    }
+    
+                    .name {
+                        font-size: 28px;
+                        margin-bottom: 20px;
+                        line-height: 1;
+    
+                        @include mq(sm) {
+                            font-size: 22px;
+                        }
+                    }
+    
+                    .prof-list {
+                        margin-bottom: 20px;
+    
+                        .list-item {
+                            font-size: 18px;
+                            line-height: 1;
+                            padding: 20px 0;
+                            border-top: 3px solid $bg-color;
+    
+                            @include mq(sm) {
+                                font-size: 16px;
+                            }
+    
+                            &:last-child {
+                                border-bottom: 3px solid $bg-color;
+                            }
+                        }
+                    }
+                }
+    
+                .about-img {
+                    width: 35.6623%;
+                    position: relative;
+                    margin-left: 60px;
+    
+                    &::after {
+                        position: absolute;
+                        content: "";
+                        top: 30px;
+                        right: -30px;
+                        width: 100%;
+                        height: 100%;
+                        background-color: $bg-color;
+                        z-index: -1;
+    
+                        @include mq(sm) {
+                            top: 20px;
+                            right: -20px;
+                        }
+                    }
+    
+                    @include mq(sm) {
+                        width: 70%;
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
+    }
+    
+    .skill {
+        background-color: $bg-color;
+        transform: skewY(-5deg);
+    
+        .skill-inner {
+            transform: skewY(5deg);
+    
+            .section-title {
+        
+                &::before {
+                    content: "出来る事";
+                }
+        
+                &::after {
+                    background-color: #fff;
+                }
+            }
+    
+            .skill-detail {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                
+                .skill-item {
+                    width: calc(33.333333% - 60px * 2/3);
+                    margin-right: 60px;
+                    margin-top: 60px;
+                    padding: 20px;
+                    background-color: #fff;
+                    box-shadow: 0 5px 12px 5px rgba(0, 0, 0, 0.16);
+                    border-radius: 12px;
+    
+                    @include mq(pc) {
+                        &:nth-child(3n) {
+                            margin-right: 0;
+                        }
+        
+                        &:nth-child(-n+3) {
+                            margin-top: 0;
+                        }
+                    }
+    
+                    @include mq(tab) {
+                        width: calc(50% - 40px * 1/2);
+                        margin-right: 40px;
+                        margin-top: 40px;
+    
+                        &:nth-child(2n) {
+                            margin-right: 0;
+                        }
+        
+                        &:nth-child(-n+2) {
+                            margin-top: 0;
+                        }
+                    }
+    
+                    @include mq(sm) {
+                        width: 100%;
+                        margin-right: 0;
+        
+                        &:nth-child(-n+2) {
+                            margin-top: 40px;
+                        }
+    
+                        &:first-child {
+                            margin-top: 0;
+                        }
+                    }
+    
+    
+                    .skill-item-icon {
+                        font-size: 55px;
+                        text-align: center;
+                        line-height: 1;
+                        margin-bottom: 15px;
+    
+                        @include mq(sm) {
+                            margin-bottom: 10px;
+                        }
+    
+                        img {
+                            width: 55px;
+                        }
+    
+                        .html {
+                            color: #ff7b00;
+                        }
+                        .css {
+                            color: #0d6cc5;
+                        }
+                        .sass {
+                            color: #F459A6;
+                        }
+                        .js {
+                            color: #F8D23D;
+                        }
+                        .wp {
+                            color: #1d8af0;
+                        }
+                        .gulp {
+                            color: #eb4a4a;
+                        }
+                    }
+    
+                    .skill-item-text {
+    
+                        .skill-item-title {
+                            font-family: "Montserrat", sans-serif !important;
+                            font-size: 22px;
+                            font-weight: 700;
+                            line-height: 1;
+                            text-align: center;
+                            margin-bottom: 15px;
+    
+                            @include mq(sm) {
+                                font-family: "Montserrat", sans-serif !important;
+                                font-size: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    .works {
+    
+        .works-inner {
+    
+            .section-title {
+    
+                &::before {
+                    content: "制作物";
+                }
+        
+                &::after {
+                    background-color: $title-color;
+                }
+            }
+    
+            .works-item-wrap {
+                margin-bottom: 60px;
+                padding: 0 60px;
+    
+                @include mq(sm) {
+                    margin-bottom: 40px;
+                    padding: 0 20px;
+                }
+    
+                .slider {
+    
+                    .works-item-link {
+                        display: block;
+                        position: relative;
+                        text-decoration: none;
+                        overflow: hidden;
+
+    
+                        .hover-bg {
+                            // pcの時だけ
+                            @include mq(pc) {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                transform: translate(0%, -100%);
+                                width: 100%;
+                                height: 100%;
+                                background-color: #000;
+                                opacity: 0;
+                                z-index: 2;
+                                transition: all 0.2s;
+                            }
+                        }
+    
+                        .site-title {
+                            // pcの時だけ
+                            @include mq(pc) {
+                                position: absolute;
+                                top: 0;
+                                left: 50%;
+                                transform: translate(-50%, -100%);
+                                color: #fff;
+                                font-size: 20px;
+                                font-weight: 700;
+                                z-index: 3;
+                                transition: all 0.2s;
+                                white-space: nowrap;
+                            }
+    
+                            @include mq(tab) {
+                                font-size: 16px;
+                                font-weight: 700;
+                                text-align: center;
+                                color: $font-color;
+                                margin-top: 10px;
+                            }
+                        }
+    
+                        &:hover {
+                            @include mq(pc) {
+                                .hover-bg {
+                                    opacity: 0.6;
+                                    transform: translate(0%, 0%);
+                                }
+        
+                                .site-title {
+                                    top: 50%;
+                                    transform: translate(-50%, -50%);
+                                }
+                            }
+                        }
+                    }
+    
+                    .slick-slide {
+                        transition: all 0.25s ease;
+                        transform: scale(.85);
+                    }
+    
+                    .slick-current {
+                        transform: scale(1);
+                    }
+    
+                    .slick-prev, .slick-next {
+                        width: 35px;
+                        height: 35px;
+                        background-color: $bg-color;
+                        border-radius: 50%;
+    
+                        @include mq(tab) {
+                            width: 25px;
+                            height: 25px;
+                        }
+    
+                        @include mq(sm) {
+                            width: 20px;
+                            height: 20px;
+                        }
+                        
+                        &::before {
+                            font-size: 18px;
+                            font-weight: 700;
+                            color: $font-color;
+                            opacity: 1;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                    }
+    
+                    .slick-prev {
+                        left: -63px;
+    
+                        @include mq(sm) {
+                            left: -33px;
+                        }
+                        
+                        &::before {
+                            content: "＜";
+                        }
+                    }
+    
+                    .slick-next {
+                        right: -63px;
+    
+                        @include mq(sm) {
+                            right: -33px;
+                        }
+                        
+                        &::before {
+                            content: "＞";
+                        }
+                    }
+                }
+            }
+    
+            .btn {
+    
+                .btn-link {
+                    background-color: #fff;
+                    overflow: hidden;
+                    position: relative;
+                    border: 2px solid $title-color;
+                    
+                    span {
+                        position: relative;
+                        z-index: 2;
+                    }
+    
+                    &::before {
+                        position: absolute;
+                        content: "";
+                        top: 50%;
+                        right: 20%;
+                        transform: translate(0, -50%) rotate(45deg);
+                        width: 7px;
+                        height: 7px;
+                        border-top: 2px solid $font-color;
+                        border-right: 2px solid $font-color;
+                        z-index: 2;
+                        transition: all 0.2s;
+                    }
+                    
+                    &::after{
+                        position: absolute;
+                        content: "";
+                        top: 50%;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: $title-color;
+                        z-index: 1;
+                        transform: translate(-100%, -50%);
+                        transition: all 0.2s;
+                    }
+    
+                    &:hover {
+    
+                        span {
+                            color: $font-color;
+                        }
+    
+                        &::after {
+                            transform: translate(0%, -50%);
+                        }
+    
+                        &::before {
+                            right: 15%;
+                        }
+                    }
+                }
+    
+            }
+        }
+    }
+    
+    .contact {
+        background-color: $bg-color;
+        transform: skewY(5deg);
+    
+        .contact-inner {
+            transform: skewY(-5deg);
+    
+            .section-title {
+    
+                &::before {
+                    content: "お問い合わせ";
+                }
+        
+                &::after {
+                    background-color: #fff;
+                }
+            }
+    
+            .contact-form {
+
+                .wpcf7-form {
+                    max-width: 700px;
+                    margin: 0 auto;
+
+                    // 送信完了後にフォームを非表示にする
+                    &.sent {
+                        max-width: 100%;
+                        margin: 0 auto;
+
+                        .form-item-wrap {
+                            display: none;
+                        }
+
+                        .form-submit {
+                            display: none;
+                        }
+
+                        .contact-thanks {
+                            display: block;
+                            text-align: center;
+                            font-size: 18px;
+
+                            @include mq(sm) {
+                                font-size: 16px;
+                            }
+                        }
+
+                        .wpcf7-response-output {
+                            display: none;
+                        }
+                    }
+
+                    .form-item-wrap {
+                        margin-bottom: 60px;
+        
+                        @include mq(sm) {
+                            margin-bottom: 40px;
+                        }
+        
+                        .form-item {
+                            margin-bottom: 40px;
+    
+                            @include mq(sm) {
+                                margin-bottom: 32px;
+                            }
+        
+                            &:last-child {
+                                margin-bottom: 0;
+                            }
+        
+                            dt {
+                                margin-bottom: 10px;
+        
+                                .form-item-label {
+                                    font-size: 18px;
+                                    font-weight: 700;
+                                    line-height: 1;
+                                }
+        
+                                .text-label {
+                                    position: relative;
+    
+                                    br {
+                                        display: none;
+                                    }
+        
+                                    &::before {
+                                        position: absolute;
+                                        content: "必須";
+                                        top: 50%;
+                                        right: -60px;
+                                        transform: translateY(-50%);
+                                        width: 48px;
+                                        height: 22px;
+                                        background-color: #FF5A5A;
+                                        color: #fff;
+                                        font-size: 12px;
+                                        font-weight: 700;
+                                        line-height: 22px;
+                                        text-align: center;
+        
+                                        @include mq(sm) {
+                                            font-size: 10px;
+                                            width: 36px;
+                                            height: 17px;
+                                            line-height: 17px;
+                                        }
+                                    }
+                                }
+                            }
+        
+                            dd {
+        
+                                .wpcf7-form-control {
+                                    width: 100%;
+                                    height: 40px;
+                                    padding: 10px;
+                                    border: none;
+                                    font-size: 16px;
+        
+                                    @include mq(sm) {
+                                        padding: 5px;
+                                        font-size: 14px;
+                                    }
+                                }
+        
+                                .wpcf7-textarea {
+                                    width: 100%;
+                                    height: 250px;
+                                    resize: none;
+                                    border: none;
+                                    font-size: 16px;
+                                    padding: 10px;
+        
+        
+                                    @include mq(sm) {
+                                        font-size: 14px;
+                                        padding: 5px;
+                                    }
+                                }
+    
+                                .wpcf7-not-valid-tip {
+                                    display: block;
+                                    position: absolute;
+                                }
+                            }
+                        }
+                    }
+        
+                    .form-submit {
+                        text-align: center;
+        
+                        .wpcf7-submit {
+                            width: 230px;
+                            height: 70px;
+                            color: $font-color;
+                            background-color: #fff;
+                            border: none;
+                            font-size: 18px;
+                            font-weight: 700;
+                            cursor: pointer;
+                            transition: all 0.2s;
+        
+                            @include mq(sm) {
+                                width: 180px;
+                                height: 50px;
+                            }
+        
+                            &:hover {
+                                background-color: #2581C9;
+                                color: #fff;
+                            }
+                        }
+    
+                        .wpcf7-spinner {
+                            display: none;
+                        }
+                    }
+
+                    .contact-thanks {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.footer {
+    width: 100%;
+    height: 100px;
+    padding: 35px 0;
+
+    @include mq(sm) {
+        height: 70px;
+        padding: 25px 0;
+    }
+    
+    .copylight {
+        text-align: center;
+        font-size: 16px;
+
+        @include mq(sm) {
+            font-size: 14px;
+        }
+    }
+}
+
+#scroll-top {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 40px;
+    height: 40px;
+
+    @include mq(sm) {
+        bottom: 20px;
+        right: 20px;
+        width: 30px;
+        height: 30px;
+    }
+
+    a {
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        background-color: #2581C9;
+        border-radius: 50%;
+
+        &::before {
+            position: absolute;
+            content: "";
+            top: 50%;
+            right: 41%;
+            transform: translateY(-50%) rotate(-45deg);
+            width: 17px;
+            height: 3px;
+            background-color: $bg-color;
+
+            @include mq(sm) {
+                width: 10px;
+            }
+        }
+
+        &::after {
+            position: absolute;
+            content: "";
+            top: 50%;
+            left: 41%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 17px;
+            height: 3px;
+            background-color: $bg-color;
+
+            @include mq(sm) {
+                width: 10px;
+            }
+        }
+    }
+}
+
+//** =========== 制作実績一覧ページ =========== **//
+.page-works {
+    padding: 0;
+
+    .page-works-inner {
+        @include mq(sm) {
+            padding: 0 20px;
+        }
+    
+        .works-item-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 80px;
+
+            @include mq(sm) {
+                margin-bottom: 60px;
+            }
+
+            .works-item {
+                display: block;
+                position: relative;
+                text-decoration: none;
+                overflow: hidden;
+                width: calc(33.333333% - 60px * 2/3);
+                margin-right: 60px;
+                margin-top: 60px;
+                box-shadow: 0 5px 12px 5px rgba(0, 0, 0, 0.16);
+    
+                @include mq(pc) {
+                    &:nth-child(3n) {
+                        margin-right: 0;
+                    }
+        
+                    &:nth-child(-n+3) {
+                        margin-top: 0;
+                    }
+
+                    .works-item-img {
+                        height: 100%;
+                    }
+                }
+
+                @include mq(tab) {
+                    width: calc(50% - 40px * 1/2);
+                    margin-right: 40px;
+                    margin-top: 40px;
+
+                    &:nth-child(2n) {
+                        margin-right: 0;
+                    }
+    
+                    &:nth-child(-n+2) {
+                        margin-top: 0;
+                    }
+                }
+
+                @include mq(sm) {
+                    width: 100%;
+                    margin-right: 0;
+    
+                    &:nth-child(-n+2) {
+                        margin-top: 40px;
+                    }
+                    
+                    &:first-child {
+                        margin-top: 0;
+                    }
+                }
+    
+                .hover-bg {
+                    // pcの時だけ
+                    @include mq(pc) {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        transform: translate(0%, -100%);
+                        width: 100%;
+                        height: 100%;
+                        background-color: #000;
+                        opacity: 0;
+                        z-index: 2;
+                        transition: all 0.2s;
+                    }
+                }
+    
+                .site-title {
+                    // pcの時だけ
+                    @include mq(pc) {
+                        position: absolute;
+                        top: 0;
+                        left: 50%;
+                        transform: translate(-50%, -100%);
+                        color: #fff;
+                        font-size: 20px;
+                        font-weight: 700;
+                        z-index: 3;
+                        transition: all 0.2s;
+                        white-space: nowrap;
+                    }
+    
+                    @include mq(tab) {
+                        font-size: 18px;
+                        font-weight: 700;
+                        text-align: center;
+                        color: $font-color;
+                        margin: 15px 0;
+                    }
+    
+                    @include mq(sm) {
+                        font-size: 16px;
+                    }
+                }
+    
+                &:hover {
+                    @include mq(pc) {
+                        .hover-bg {
+                            opacity: 0.6;
+                            transform: translate(0%, 0%);
+                        }
+        
+                        .site-title {
+                            top: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                    }
+                }
+            }
+        }
+
+        .pagenation {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 100px;
+
+            @include mq(sm) {
+                margin-bottom: 60px;
+            }
+
+            .page-numbers {
+                display: block;
+                width: 50px;
+                height: 50px;
+                border: 2px solid $title-color;
+                text-align: center;
+                position: relative;
+                margin: 0 10px 0;
+                color: $font-color;
+                font-size: 16px;
+                text-align: center;
+                padding: 9px 0;
+
+                @include mq(sm) {
+                    width: 35px;
+                    height: 35px;
+                    padding: 3px 0;
+                }
+            }
+
+            .prev, .next {
+                position: relative;
+
+                &::after {
+                    position: absolute;
+                    content: "";
+                    width: 19%;
+                    height: 33%;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+            }
+
+            .current {
+                display: block;
+                width: 50px;
+                height: 50px;
+                border: none;
+                background-color: #2581C9;
+                text-align: center;
+                position: relative;
+                color: #fff;
+                font-size: 16px;
+                text-align: center;
+                padding: 11px 0;
+                margin: 0 10px 0;
+
+                @include mq(sm) {
+                    width: 35px;
+                    height: 35px;
+                    padding: 5px 0;
+                }
+            }
+        }
+    }
+
+    .page-works-btn {
+
+        .btn-link {
+            background-color: #fff;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid $title-color;
+            
+            span {
+                position: relative;
+                z-index: 2;
+            }
+
+            &::before {
+                position: absolute;
+                content: "";
+                top: 50%;
+                right: 20%;
+                transform: translate(0, -50%) rotate(45deg);
+                width: 7px;
+                height: 7px;
+                border-top: 2px solid $font-color;
+                border-right: 2px solid $font-color;
+                z-index: 2;
+                transition: all 0.2s;
+            }
+            
+            &::after{
+                position: absolute;
+                content: "";
+                top: 50%;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: $title-color;
+                z-index: 1;
+                transform: translate(-100%, -50%);
+                transition: all 0.2s;
+            }
+
+            &:hover {
+
+                span {
+                    color: $font-color;
+                }
+
+                &::after {
+                    transform: translate(0%, -50%);
+                }
+
+                &::before {
+                    right: 15%;
+                }
+            }
+        }
+    }
+}
+
+//** =========== 制作実績ページ =========== **//
+.single-works {
+    padding: 0;
+
+    .single-works-inner {
+        max-width: 1000px;
+        margin: 0 auto;
+
+        .works-img {
+            margin-bottom: 60px;
+
+            @include mq(sm) {
+                margin-bottom: 40px;
+            }
+        }
+
+        .works-content {
+            margin-bottom: 100px;
+
+            @include mq(sm) {
+                margin-bottom: 70px;
+            }
+
+            .works-content-title {
+                border-bottom: 2px solid $bg-color;
+                margin-bottom: 30px;
+                padding-bottom: 20px;
+
+                @include mq(sm) {
+                    padding-bottom: 10px;
+                    margin-bottom: 20px;
+                }
+
+                .works-site-name {
+                    font-size: 24px;
+                    line-height: 1;
+                    margin-bottom: 18px;
+                    font-weight: 700;
+
+                    @include mq(sm) {
+                        font-size: 18px;
+                        margin-right: 0;
+                        margin-bottom: 10px;
+                    }
+                }
+                
+                .works-link-pass {
+                    display: flex;
+                    align-items: center;
+
+                    p {
+                        font-size: 16px;
+                        line-height: 1.5;
+
+                        @include mq(sm) {
+                            font-size: 14px;
+                        }
+                    }
+    
+                    a {
+                        color: #2581C9;
+                        font-weight: 700;
+                        transition: all 0.2s;
+                        margin-left: 30px;
+
+                        @include mq(sm) {
+                            margin-left: 20px;
+                        }
+    
+                        &:hover {
+                            transform: scale(1.05);
+                        }
+                    }
+    
+                }
+            }
+
+            .works-detail-item {
+                display: flex;
+                align-items: center;
+                padding: 20px 0;
+                margin-bottom: 30px;
+                border-bottom: 2px solid $bg-color;
+
+                @include mq(sm) {
+                    flex-direction: column;
+                    align-items: start;
+                    padding: 10px 0;
+                    margin-bottom: 20px;
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .works-detail {
+                    line-height: 1;
+                    font-size: 18px;
+                    font-weight: 700;
+                    width: 150px;
+
+                    @include mq(sm) {
+                        font-size: 16px;
+                        margin-bottom: 15px;
+                    }
+                }
+
+                .works-detail-text {
+                    width: calc(100% - 150px);
+
+                    @include mq(sm) {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .single-works-btn {
+
+            .btn-link {
+                background-color: #fff;
+                overflow: hidden;
+                position: relative;
+                border: 2px solid $title-color;
+                
+                span {
+                    position: relative;
+                    z-index: 2;
+                }
+
+                &::before {
+                    position: absolute;
+                    content: "";
+                    top: 50%;
+                    right: 20%;
+                    transform: translate(0, -50%) rotate(45deg);
+                    width: 7px;
+                    height: 7px;
+                    border-top: 2px solid $font-color;
+                    border-right: 2px solid $font-color;
+                    z-index: 2;
+                    transition: all 0.2s;
+                }
+                
+                &::after{
+                    position: absolute;
+                    content: "";
+                    top: 50%;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: $title-color;
+                    z-index: 1;
+                    transform: translate(-100%, -50%);
+                    transition: all 0.2s;
+                }
+
+                &:hover {
+
+                    span {
+                        color: $font-color;
+                    }
+
+                    &::after {
+                        transform: translate(0%, -50%);
+                    }
+
+                    &::before {
+                        right: 15%;
+                    }
+                }
+            }
+        }
+    }
+}
